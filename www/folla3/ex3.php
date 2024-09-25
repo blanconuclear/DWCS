@@ -9,7 +9,7 @@ $media = array_sum($salario) / count($salario);
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
   <meta charset="UTF-8" />
@@ -21,21 +21,19 @@ $media = array_sum($salario) / count($salario);
   <table border="1px" style="background-color: black; color: azure; font-size: 40px">
     <tr>
       <th>Alumno</th>
-      <th>Soldo</th>
+      <th>Sueldo</th>
     </tr>
 
-    <?php
-    foreach ($salario as $nombre => $sueldo) { // Cambiado $salario a $sueldo
-      echo "<tr>";
-      echo "<td>$nombre</td>";
-      echo "<td>$sueldo</td>";
-      echo "</tr>";
-    }
-    ?>
+    <?php foreach ($salario as $nombre => $sueldo): ?>
+      <tr>
+        <td><?= $nombre ?></td>
+        <td><?= $sueldo ?></td>
+      </tr>
+    <?php endforeach; ?>
 
-    <tr> <!-- Añadido para nueva fila -->
+    <tr>
       <td style="background-color: gray">Media</td>
-      <td><?php echo $media; ?></td>
+      <td><?= $media ?></td>
     </tr>
   </table>
 </body>
