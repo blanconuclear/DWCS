@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Calculadora con PHP</title>
+    <link rel="stylesheet" type="text/css" href="estilosFuncions.css" />
+  </head>
+  <body>
+    <div id="todo">
+      <aside>
+        <h2>Calculadora con PHP</h2>
+        <form action="funcionsPHP.php" method="GET">
+          <h3>Incógnitas</h3>
+          <div id="contenedorIncognitas">
+            <div class="divIncognitas">
+              <label for="n1">n1</label
+              ><input type="number" name="n1" id="n1" />
+            </div>
+            <div class="divIncognitas">
+              <label for="n2">n2</label
+              ><input type="number" name="n2" id="n2" />
+            </div>
+            <div class="divIncognitas">
+              <label for="n3">n3</label
+              ><input type="number" name="n3" id="n3" />
+            </div>
+            <div class="divIncognitas">
+              <label for="n4">n4</label
+              ><input type="number" name="n4" id="n4" />
+            </div>
+          </div>
+          <h3>Botones</h3>
+          <div id="contenedorBotons">
+            <!-- Corregidos con name y value -->
+            <button id="suma2" type="submit" name="suma2" value="suma2">
+              Suma 2 valores
+            </button>
+            <button id="suma3" type="submit" name="suma3" value="suma3">
+              Suma 3 valores
+            </button>
+            <button id="suma4" type="submit" name="suma4" value="suma4">
+              Suma 4 valores
+            </button>
+            <button
+              id="multiplica2"
+              type="submit"
+              name="multiplicacio2"
+              value="multiplicacio2"
+            >
+              Multiplica 2 valores
+            </button>
+            <button
+              id="multiplica3"
+              type="submit"
+              name="multiplicacio3"
+              value="multiplicacio3"
+            >
+              Multiplica 3 valores
+            </button>
+            <button
+              id="multiplica4"
+              type="submit"
+              name="multiplicacio4"
+              value="multiplicacio4"
+            >
+              Multiplica 4 valores
+            </button>
+            <button id="maior" type="submit" name="maior" value="maior">
+              Maior
+            </button>
+            <button id="menor" type="submit" name="menor" value="menor">
+              Menor
+            </button>
+            <button id="media" type="submit" name="media" value="media">
+              Media
+            </button>
+            <button
+              id="factorialN3"
+              type="submit"
+              name="factorial"
+              value="factorial"
+            >
+              Factorial de n3
+            </button>
+            <button
+              id="segundoMaior"
+              type="submit"
+              name="segundoMaior"
+              value="segundoMaior"
+            >
+              2º maior de todos
+            </button>
+            <button
+              id="ordearMaiorMenor"
+              type="submit"
+              name="ordearMaiorMenor"
+              value="ordearMaiorMenor"
+            >
+              Ordear de maior a menor
+            </button>
+            <button
+              id="ordearMenorMaior"
+              type="submit"
+              name="ordearMenorMaior"
+              value="ordearMenorMaior"
+            >
+              Ordear de menor a maior
+            </button>
+          </div>
+        </form>
+      </aside>
+    </div>
+  </body>
+</html>
