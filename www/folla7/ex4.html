@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Formulario de Cadenas</title>
+    <link rel="stylesheet" type="text/css" href="estilosFuncions.css" />
+</head>
+
+<body>
+    <div id="todo">
+        <aside>
+            <h2>Funciones de Cadenas</h2>
+            <form action="ex3.php" method="POST">
+                <h3>Cadea</h3>
+                <textarea
+                    name="cadena"
+                    rows="5"
+                    cols="50"
+                    placeholder="Introduce a cadea aquí..."></textarea>
+
+                <h3>Selecciona a función</h3>
+                <label><input type="radio" name="funcion" value="strtoupper" /> strtoupper()</label><br />
+                <label><input type="radio" name="funcion" value="strtolower" /> strtolower()</label><br />
+                <label><input type="radio" name="funcion" value="ucwords" /> ucwords()</label><br />
+
+                <button type="submit">Aplicar Función</button>
+            </form>
+        </aside>
+    </div>
+</body>
+
+</html>
