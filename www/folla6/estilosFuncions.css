@@ -1,95 +1,81 @@
-*
-{
-margin:0;
-padding:0;
+* {
+  margin: 0;
+  padding: 0;
 }
-h2
-{
-text-align:center;
-padding:10px;
-background-color:black;
-color:yellow;
-font-size:27px;
+h2 {
+  text-align: center;
+  padding: 10px;
+  background-color: black;
+  color: yellow;
+  font-size: 27px;
 }
 
-h3
-{
-margin:20px ;	
+h3 {
+  margin: 20px;
 }
-#contenedorBotons, #contenedorIncognitas
-{
-display:flex;
-flex-wrap: wrap;
-margin:0 auto;
+#contenedorBotons,
+#contenedorIncognitas {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 auto;
 }
 
-
-#todo
-{
-	display:flex;
+#todo {
+  display: flex;
   /*flex-flow: row; */
 }
-aside
-{
-flex:2
+aside {
+  flex: 2;
 }
-article
-{
-flex:2;
-border-right:1px dotted #aaa;
-font-size:1.3em;
-height:100%;
+article {
+  flex: 2;
+  border-right: 1px dotted #aaa;
+  font-size: 1.3em;
+  height: 100%;
 }
 
-article p  
-{
-	padding: 20px 20px 0px 20px;
-	line-height:1.3em;
-} 
-button
-{
-height: 3em;
-width:12em;
-margin:1em;
-background-color:#bbb;
+article p {
+  padding: 20px 20px 0px 20px;
+  line-height: 1.3em;
 }
-.divIncognitas
-{
-height: 2.5em;
-margin:1em;
-/*border:1px red solid; */
+button {
+  height: 3em;
+  width: 12em;
+  margin: 1em;
+  background-color: #bbb;
 }
-input, label
-{
-height: 3em;
+.divIncognitas {
+  height: 2.5em;
+  margin: 1em;
+  /*border:1px red solid; */
 }
-input
-{
-width:9em;
-margin-left:1em;
+input,
+label {
+  height: 3em;
 }
-#resultado
-{
-height:1em;
-font-size:1.3em;
-background-color:#aaa;
-padding:1em;
-text-align:center;
-margin:1em 0;
+input {
+  width: 9em;
+  margin-left: 1em;
 }
-p
-{
-padding:10px;
+#resultado {
+  height: 1em;
+  font-size: 1.3em;
+  background-color: #aaa;
+  padding: 1em;
+  text-align: center;
+  margin: 1em 0;
+}
+p {
+  padding: 10px;
 }
 
-li,ol
-{
-padding-left:40px;
-padding-bottom:20px;
+li,
+ol {
+  padding-left: 40px;
+  padding-bottom: 20px;
 }
-article div
-{
-margin:20px 30px;	
-padding:10px;
-background-color: #3399ff;
+article div {
+  margin: 20px 30px;
+  padding: 10px;
+  background-color: #3399ff;
 }
