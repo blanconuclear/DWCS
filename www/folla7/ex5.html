@@ -1,31 +1,43 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="gl">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Formulario de Funcións</title>
   </head>
   <body>
-    <form action="ex5.php" method="get">
-      <label for="cadea1">Introduce a cadea de texto:</label><br />
-      <textarea id="cadea1" name="cadea1"></textarea><br /><br />
-      <label for="cadea2">Introduce a cadea de texto:</label><br />
-      <textarea id="cadea2" name="cadea2"></textarea><br /><br />
+    <h1>Formulario de Funcións</h1>
+    <form action="ex5.php" method="POST">
+      <label for="primeiraCadea">Primeira Cadea:</label>
+      <input
+        type="text"
+        id="primeiraCadea"
+        name="primeiraCadea"
+        required
+      /><br /><br />
 
-      <label>
-        <input type="checkbox" name="strcspn" value="strcspn" />
-        strcspn() </label
-      ><br />
-      <label>
-        <input type="checkbox" name="strpos" value="strpos" /> strpos() </label
-      ><br />
-      <label>
-        <input type="checkbox" name="strstr" value="strstr" /> strstr() </label
-      ><br />
-      <label>
-        <input type="checkbox" name="substr" value="substr" /> substr() </label
-      ><br /><br />
-      <button>Enviar</button>
+      <label for="segundaCadea">Segunda Cadea:</label>
+      <input
+        type="text"
+        id="segundaCadea"
+        name="segundaCadea"
+        required
+      /><br /><br />
+
+      <h3>Selecciona as funcións que queres executar:</h3>
+      <input type="checkbox" id="strcspn" name="funcions[]" value="strcspn" />
+      <label for="strcspn">strcspn()</label><br />
+
+      <input type="checkbox" id="strpos" name="funcions[]" value="strpos" />
+      <label for="strpos">strpos()</label><br />
+
+      <input type="checkbox" id="strstr" name="funcions[]" value="strstr" />
+      <label for="strstr">strstr()</label><br />
+
+      <input type="checkbox" id="substr" name="funcions[]" value="substr" />
+      <label for="substr">substr()</label><br /><br />
+
+      <button type="submit">Enviar</button>
     </form>
   </body>
 </html>

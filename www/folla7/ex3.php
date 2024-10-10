@@ -1,29 +1,35 @@
 <?php
-// Capturamos a cadea introducida e a función seleccionada
-$texto = isset($_POST['cadena']) ? $_POST['cadena'] : ''; // Capturamos la cadena correctamente
-$funcion = isset($_POST['funcion']) ? $_POST['funcion'] : ''; // Capturamos la función correctamente
+// Capturamos la cadena introducida y la función seleccionada
+$texto = isset($_POST['cadena']) ? $_POST['cadena'] : '';
+$funcion = isset($_POST['funcion']) ? $_POST['funcion'] : '';
 
-// Engadimos comiñas ao redor da cadea para mostrar os espazos
-$texto_mostrado = '"' . htmlspecialchars($texto) . '"'; // Escapamos para seguridad
+
+$texto_mostrado = '"' . str_replace(" ", "*", $texto) . '"';
 $resultado = '';
 
-// Dependendo da función seleccionada, aplicamos a función correspondente
 switch ($funcion) {
-    case 'strtoupper':
-        $resultado = strtoupper($texto); // Convierte la cadena a mayúsculas
+    case 'chop':
+        // es un alias de rtrim() en PHP, eliminando espacios en blanco al final
+        $resultado = chop($texto);
         break;
-    case 'strtolower':
-        $resultado = strtolower($texto); // Convierte la cadena a minúsculas
+    case 'ltrim':
+        // elimina los espacios en blanco del principio de la cadena
+        $resultado = ltrim($texto);
         break;
-    case 'ucwords':
-        $resultado = ucwords($texto); // Convierte la primera letra de cada palabra a mayúscula
+    case 'trim':
+        // elimina espacios en blanco tanto del principio como del final de la cadena
+        $resultado = trim($texto);
+        break;
+    case 'strip_tags':
+        // elimina cualquier etiqueta HTML o PHP de la cadena
+        $resultado = strip_tags($texto);
         break;
     default:
-        $resultado = 'Función no válida'; // Mensaje de error si la función no es válida
+        $resultado = 'Función no válida';
 }
 
-// Mostramos os resultados
+// Mostramos los resultados
 echo "<h2>Resultados</h2>";
 echo "<p>Cadea introducida: $texto_mostrado</p>";
 echo "<p>Función aplicada: $funcion()</p>";
-echo "<p>Cadea despois de serlle aplicada a función: \"" . htmlspecialchars($resultado) . "\"</p>";
+echo "<p>Cadea despois de serlle aplicada a función: \"" . $resultado . "\"</p>";
