@@ -1,28 +1,121 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-    <title>Conexión a bases de datos</title>
-    <meta charset=”UTF8”>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
 </head>
 
 <body>
     <?php
-    //$conexion=mysqli_connect("localhost","usuario","Password", "proba"); //Co xampp
-    $conexion = mysqli_connect("dbXdebug", "root", "root", "folla1"); //Co docker de
-    // clase
+    $conexion = mysqli_connect("dbXdebug", "root", "root", "folla1");
+
     if ($conexion) {
-        mysqli_set_charset($conexion, "utf8");
-        $resultado = mysqli_query($conexion, "SELECT id,DNI,Nome,Apelidos,Idade from xogador");
-        if ($resultado != FALSE) {
-            while ($fila = mysqli_fetch_array($resultado))
-                echo $fila["id"], " ", $fila["DNI"], " ", $fila["Nome"], " ", $fila["Apelidos"], " ", $fila["Idame"], "<br>";
-        }
-    } else {
-        echo "Fallou a conexión coa base de datos";
+        mysqli_set_charset($conexion, 'utf8');
+
+        $datos = mysqli_query($conexion, "SELECT id, dni, nome, apelidos, idade from xogador");
+
+        $menores30 = mysqli_query($conexion, "SELECT * from xogador where idade < 30");
+
+        $contaMenores22 = mysqli_query($conexion, "SELECT count(idade) from xogador where idade >22");
+
+        $maioresGarcia = mysqli_query($conexion, "SELECT * from xogador where apelidos > 'G'");
     }
-    mysqli_close($conexion); // Pechamos a conexion.
     ?>
+
+    <table border="1px">
+        <tr>
+            <th>id</th>
+            <th>dni</th>
+            <th>nome</th>
+            <th>apelidos</th>
+            <th>idade</th>
+        </tr>
+
+        <?php
+        if ($datos) {
+            while ($fila = mysqli_fetch_array($datos)) {
+                echo "<tr>
+                          <td>{$fila["id"]}</td>
+                          <td>{$fila["dni"]}</td>
+                          <td>{$fila["nome"]}</td>
+                          <td>{$fila["apelidos"]}</td>
+                          <td>{$fila["idade"]}</td>
+                        </tr>";
+            }
+        }
+        ?>
+
+    </table>
+
+    </br>
+
+    <table border="1px">
+        <tr>
+            <th>id</th>
+            <th>dni</th>
+            <th>nome</th>
+            <th>apelidos</th>
+            <th>idade</th>
+        </tr>
+
+        <?php
+        if ($menores30) {
+            while ($fila = mysqli_fetch_array($menores30)) {
+                echo "<tr>
+                          <td>{$fila["id"]}</td>
+                          <td>{$fila["dni"]}</td>
+                          <td>{$fila["nome"]}</td>
+                          <td>{$fila["apelidos"]}</td>
+                          <td>{$fila["idade"]}</td>
+                        </tr>";
+            }
+        }
+        ?>
+    </table>
+
+
+    <div>
+        <?php
+        if ($contaMenores22) {
+
+            $total = mysqli_fetch_array($contaMenores22);
+
+            while ($total) {
+                echo "<p> O total de alumnos maiores a 22 anos é: {$total[0]}</p>";
+                break;
+            }
+        }
+        ?>
+    </div>
+
+
+    <table border="1px">
+        <tr>
+            <th>id</th>
+            <th>dni</th>
+            <th>nome</th>
+            <th>apelidos</th>
+            <th>idade</th>
+        </tr>
+
+        <?php
+        if ($maioresGarcia) {
+            while ($fila = mysqli_fetch_array($maioresGarcia)) {
+                echo "<tr>
+                          <td>{$fila["id"]}</td>
+                          <td>{$fila["dni"]}</td>
+                          <td>{$fila["nome"]}</td>
+                          <td>{$fila["apelidos"]}</td>
+                          <td>{$fila["idade"]}</td>
+                        </tr>";
+            }
+        }
+        ?>
+    </table>
+
+
 </body>
 
 </html>
