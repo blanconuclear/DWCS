@@ -21,6 +21,8 @@ services:
       MYSQL_PASSWORD: abc123.
     ports:
       - 9906:3306
+    volumes:
+      - persistente:/var/lib/mysql
 
   phpmyadmin:
     image: phpmyadmin
@@ -29,3 +31,5 @@ services:
     environment:
       - PMA_ARBITRARY=1
 
+volumes:
+  persistente:
