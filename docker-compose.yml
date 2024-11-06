@@ -5,7 +5,6 @@ services:
     container_name: php8.0-apache-mysql-XDebug
     build: .
     volumes:
-      # Montamos a web desde fóra no directorio web do contenedor
       - ./www:/var/www/html
       - ./xdebug:/var/logs/xdebug
     ports:
@@ -22,7 +21,7 @@ services:
     ports:
       - 9906:3306
     volumes:
-      - persistente:/var/lib/mysql
+      - persistente:/var/lib/mysql # Volumen persistente para la base de datos
 
   phpmyadmin:
     image: phpmyadmin
