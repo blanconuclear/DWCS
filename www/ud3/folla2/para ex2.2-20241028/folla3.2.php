@@ -13,7 +13,7 @@
 		}
 
 		.tema {
-			height: 210px;
+			height: 410px;
 			background-color: white;
 			border: 1px black solid;
 			text-align: center;
@@ -24,6 +24,10 @@
 		img {
 			width: 130px;
 			height: 130px;
+		}
+
+		form {
+			height: 600px;
 		}
 	</style>
 
@@ -54,7 +58,12 @@
 			</select>
 
 			<button name="filtrar_autor" type="submit">Lista por autor seleccionado</button>
+
+			<button name="engadir_rexistro">Engadir Rexistro</button>
+
+
 		</form>
+
 
 		<?php
 		// Conectar a la base de datos
@@ -80,6 +89,12 @@
 			$sql = "SELECT * FROM tema WHERE autor = '$autor' ";
 		}
 
+
+
+		//engadir rexistro
+		if (isset($_GET['eliminar_rexistro'])) {
+		}
+
 		$resultado = mysqli_query($conexion, $sql);
 
 		// Iterar sobre los resultados y generar el HTML para cada tema
@@ -90,12 +105,18 @@
 			$duracion = $fila['Duracion'];
 			$imagen = $fila['Imaxe'];
 
+
 			echo "<div class='tema'>";
 			echo "<img src='imaxes/$imagen.jpg' alt='$titulo'><br>";
 			echo "<strong>$titulo</strong><br>";
 			echo "Autor: $autor<br>";
 			echo "Año: $ano<br>";
-			echo "Duración: $duracion segundos";
+			echo "Duración: $duracion segundos<br>";
+
+			echo "<form action='' method='POST' style='display:inline;'>";
+			echo "<button type='submit' name='eliminar_rexistro' value='$titulo'>Eliminar Rexistro</button>";
+			echo "</form>";
+
 			echo "</div>";
 		}
 
