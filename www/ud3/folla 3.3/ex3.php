@@ -20,6 +20,7 @@
 </body>
 
 </html>
+
 <?php
 $servidor = "dbXdebug";
 $usuario = "root";
