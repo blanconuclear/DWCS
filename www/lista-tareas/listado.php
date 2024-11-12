@@ -19,101 +19,109 @@ if (!isset($_SESSION['user_id'])) {
 
 <body>
     <div class="container mt-5">
-        <h2>Agregar Tarea</h2>
-        <form action="" method="post">
-            <div class="mb-3">
-                <label for="titulo" class="form-label">Título de la Tarea</label>
-                <input type="text" class="form-control" id="titulo" name="titulo" placeholder="Ingresa el título" required>
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2>Lista de Tareas</h2>
+            <form method="post" action="logout.php">
+                <button type="submit" class="btn btn-danger btn-sm" name="btn-logout">Cerrar sesión</button>
+            </form>
+        </div>
+
+        <!-- Formulario para agregar tareas -->
+        <div class="card mb-4">
+            <div class="card-body">
+                <h4 class="card-title">Agregar Tarea</h4>
+                <form action="" method="post">
+                    <div class="mb-3">
+                        <label for="titulo" class="form-label">Título de la Tarea</label>
+                        <input type="text" class="form-control" id="titulo" name="titulo" placeholder="Ingresa el título" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="tarea" class="form-label">Descripción de la Tarea</label>
+                        <textarea class="form-control" id="tarea" name="tarea" rows="4" placeholder="Describe la tarea" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary" name="btn-agregar">Agregar Tarea</button>
+                </form>
             </div>
-            <div class="mb-3">
-                <label for="tarea" class="form-label">Descripción de la Tarea</label>
-                <textarea class="form-control" id="tarea" name="tarea" rows="4" placeholder="Describe la tarea" required></textarea>
-            </div>
-            <button type="submit" class="btn btn-primary" name="btn-agregar">Agregar Tarea</button>
-        </form>
-    </div>
+        </div>
 
-    <?php
+        <?php
+        $servidor = "dbXdebug";
+        $usuario = "root";
+        $passwd = "root";
+        $base = "misPruebas";
 
-    $servidor = "dbXdebug";
-    $usuario = "root";
-    $passwd = "root";
-    $base = "misPruebas";
+        // CONECTAMOS
+        $conexion = new mysqli($servidor, $usuario, $passwd, $base);
+        if ($conexion->connect_error) {
+            die("No es posible conectar a la base de datos: " . $conexion->connect_error);
+        }
+        $conexion->set_charset("utf8");
 
-    // CONECTAMOS
-    $conexion = new mysqli($servidor, $usuario, $passwd, $base);
-    if ($conexion->connect_error) {
-        die("No es posible conectar a la base de datos: " . $conexion->connect_error);
-    }
-    $conexion->set_charset("utf8");
+        $user_id = $_SESSION['user_id'];
 
-    $user_id = $_SESSION['user_id'];
+        // Insertar tarea en la base de datos
+        if (isset($_POST['btn-agregar'])) {
+            $titulo = $_POST['titulo'];
+            $tarea = $_POST['tarea'];
 
-    // Insertar tarea en la base de datos
-    if (isset($_POST['btn-agregar'])) {
-        $titulo = $_POST['titulo'];
-        $tarea = $_POST['tarea'];
+            $sentenciaInsertar = $conexion->prepare("INSERT INTO tarea (titulo, tarea, user_id) VALUES (?, ?, ?)");
+            $sentenciaInsertar->bind_param("ssi", $titulo, $tarea, $user_id);
 
-        $sentenciaInsertar = $conexion->prepare("INSERT INTO tarea (titulo, tarea, user_id) VALUES (?, ?, ?)");
-        $sentenciaInsertar->bind_param("ssi", $titulo, $tarea, $user_id);
+            if ($sentenciaInsertar->execute()) {
+                echo "<div class='alert alert-success'>Tarea agregada correctamente.</div>";
+            } else {
+                echo "<div class='alert alert-danger'>Error al agregar la tarea: " . $sentenciaInsertar->error . "</div>";
+            }
 
-        if ($sentenciaInsertar->execute()) {
-            echo "<div class='alert alert-success'>Tarea agregada correctamente.</div>";
-        } else {
-            echo "<div class='alert alert-danger'>Error al agregar la tarea: " . $sentenciaInsertar->error . "</div>";
+            $sentenciaInsertar->close();
         }
 
-        $sentenciaInsertar->close();
-    }
+        // Borrar tarea de la base de datos
+        if (isset($_POST['btn-eliminar'])) {
+            $id = $_POST['btn-eliminar'];
 
-    // Borrar tarea de la base de datos
-    if (isset($_POST['btn-eliminar'])) {
-        $id = $_POST['btn-eliminar'];
+            $sql_eliminar = $conexion->prepare("DELETE FROM tarea WHERE id = ? AND user_id = ?");
+            $sql_eliminar->bind_param("ii", $id, $user_id);
+            $sql_eliminar->execute();
+        }
 
-        $sql_eliminar = $conexion->prepare("DELETE FROM tarea WHERE id = ? AND user_id = ?");
-        $sql_eliminar->bind_param("ii", $id, $user_id);
-        $sql_eliminar->execute();
-    }
+        // Mostrar datos de la tabla "tarea" para el usuario logueado
+        $sentenciaDatos = $conexion->prepare("SELECT * FROM tarea WHERE user_id = ?");
+        $sentenciaDatos->bind_param("i", $user_id);
+        $sentenciaDatos->execute();
+        $resultado = $sentenciaDatos->get_result();
 
-    //Redirección al logout
-    if (isset($_POST['btn-logout'])) {
-        header("Location: logout.php");
-    }
+        echo "<div class='card'>";
+        echo "<div class='card-body'>";
+        echo "<h4 class='card-title'>Tareas</h4>";
+        echo "<table class='table table-striped'><thead><tr><th>ID</th><th>Título</th><th>Descripción</th><th>Acciones</th></tr></thead><tbody>";
 
-    // Mostrar datos de la tabla "tarea" para el usuario logueado
-    $sentenciaDatos = $conexion->prepare("SELECT * FROM tarea WHERE user_id = ?");
-    $sentenciaDatos->bind_param("i", $user_id);
-    $sentenciaDatos->execute();
-    $resultado = $sentenciaDatos->get_result();
+        while ($fila = $resultado->fetch_array(MYSQLI_BOTH)) {
+            $id = $fila['id'];
+            $titulo = $fila['titulo'];
+            $tarea = $fila['tarea'];
 
-    echo "<h3>Lista de Tareas</h3>";
-    echo "<table class='table'><thead><tr><th>ID</th><th>Título</th><th>Descripción</th><th>Acciones</th></tr></thead><tbody>";
+            echo "<tr>
+                <td>$id</td>
+                <td>$titulo</td>
+                <td>$tarea</td>
+                <td>
+                    <form method='post' style='display:inline;'>
+                        <button type='submit' class='btn btn-danger btn-sm' name='btn-eliminar' value='{$fila['id']}'>Eliminar</button>
+                    </form>
+                </td>
+              </tr>";
+        }
 
-    while ($fila = $resultado->fetch_array(MYSQLI_BOTH)) {
-        $id = $fila['id'];
-        $titulo = $fila['titulo'];
-        $tarea = $fila['tarea'];
+        echo "</tbody></table>";
+        echo "</div></div>";
 
-        echo "<tr>
-            <td>$id</td>
-            <td>$titulo</td>
-            <td>$tarea</td>
-            <td>
-                <form method='post' style='display:inline;'>
-                    <button type='submit' class='btn btn-danger btn-sm' name='btn-eliminar' value='{$fila['id']}'>Eliminar</button>
-                </form>
-            </td>
-          </tr>";
-    }
+        $sentenciaDatos->close();
+        $conexion->close();
+        ?>
+    </div>
 
-    echo "</tbody></table>";
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
 
-    echo '<form method="post" style="display:inline;" action="logout.php">
-    <button type="submit" class="btn btn-danger btn-sm" name="btn-logout">Cerrar sesión</button>
-</form>';
-
-
-
-    $sentenciaDatos->close();
-    $conexion->close();
-    ?>
+</html>
