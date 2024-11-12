@@ -25,7 +25,7 @@
 $servidor = "dbXdebug";
 $usuario = "root";
 $passwd = "root";
-$base = "proba";
+$base = "misPruebas";
 
 // CONECTAMOS
 $conexion = new mysqli($servidor, $usuario, $passwd, $base);
