@@ -17,15 +17,6 @@ if (isset($_POST['btn-send'])) {
     // Preparar la consulta con marcadores de posición (?)
     $sentenciaEnviar = $conexion->prepare("INSERT INTO login (nombre, mail, pass) VALUES (?, ?, ?)");
 
-    // Verificar si la preparación de la consulta fue exitosa
-    if ($sentenciaEnviar === false) {
-        die("Error en la preparación de la consulta: " . $conexion->error);
-    }
-
-
-
-
-
     // Obtener los valores del formulario
     $nombre = $_POST['name'];
     $mail = $_POST['mail'];
@@ -36,7 +27,10 @@ if (isset($_POST['btn-send'])) {
 
     // Ejecutar la consulta
     if ($sentenciaEnviar->execute()) {
-        echo "Registro insertado correctamente.";
+
+        //si es registrado correctamente hacemos una redirección a la página de login
+        header("Location: login.html");
+        exit();
     } else {
         echo "Error al insertar el registro: " . $sentenciaEnviar->error;
     }

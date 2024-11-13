@@ -137,7 +137,7 @@ if (!isset($_SESSION['user_id'])) {
 
 
 
-    //Solución temporal para que cada vez que se recarga la página no cree tareas repetidas.
+    <!--Solución temporal para que cada vez que se recarga la página no cree tareas repetidas.-->
     <script>
         if (window.history.replaceState) {
             window.history.replaceState(null, null, window.location.href);

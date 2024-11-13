@@ -32,7 +32,9 @@ if (isset($_POST['btn-login'])) {
         exit();
     } else {
         echo "<div class='alert alert-danger'>Contraseña incorrecta o usuario no encontrado.</div>";
+        echo "<a href='login.html' class='btn btn-primary'>Volver al Login</a>";
     }
+
 
     $query->close();
 }
