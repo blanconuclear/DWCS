@@ -25,6 +25,7 @@ if (isset($_POST['btn-login'])) {
     $resultado = $query->get_result();
 
     $usuario = $resultado->fetch_array(MYSQLI_BOTH);
+
     // Verificar si se encontró el usuario
     if ($usuario && password_verify($pass, $usuario['pass'])) {
         echo "Bienvenido, " . $usuario['nombre'] . "!";

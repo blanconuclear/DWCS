@@ -64,17 +64,14 @@ if (!isset($_SESSION['user_id'])) {
             $titulo = $_POST['titulo'];
             $tarea = $_POST['tarea'];
 
+
+            // Consulta SQL para insertar la nueva tarea, incluyendo el estado
             $sentenciaInsertar = $conexion->prepare("INSERT INTO tarea (titulo, tarea, user_id) VALUES (?, ?, ?)");
             $sentenciaInsertar->bind_param("ssi", $titulo, $tarea, $user_id);
-
-            if ($sentenciaInsertar->execute()) {
-                echo "<div class='alert alert-success'>Tarea agregada correctamente.</div>";
-            } else {
-                echo "<div class='alert alert-danger'>Error al agregar la tarea: " . $sentenciaInsertar->error . "</div>";
-            }
-
+            $sentenciaInsertar->execute();
             $sentenciaInsertar->close();
         }
+
 
         // Borrar tarea de la base de datos
         if (isset($_POST['btn-eliminar'])) {
@@ -94,25 +91,40 @@ if (!isset($_SESSION['user_id'])) {
         echo "<div class='card'>";
         echo "<div class='card-body'>";
         echo "<h4 class='card-title'>Tareas</h4>";
-        echo "<table class='table table-striped'><thead><tr><th>ID</th><th>Título</th><th>Descripción</th><th>Acciones</th></tr></thead><tbody>";
+        echo "<table class='table table-striped'>
+            <thead>
+                <tr>
+                    <th> </th>
+                    <th>ID</th>
+                    <th>Título</th>
+                    <th>Descripción</th>
+                </tr>
+            </thead>
+        <tbody>";
 
+        //Contador para indice de tareas
+        $contador = 1;
         while ($fila = $resultado->fetch_array(MYSQLI_BOTH)) {
             $id = $fila['id'];
             $titulo = $fila['titulo'];
             $tarea = $fila['tarea'];
 
+
             echo "<tr>
+                <td>$contador</td>
                 <td>$id</td>
                 <td>$titulo</td>
                 <td>$tarea</td>
                 <td>
                     <form method='post' style='display:inline;'>
-                        <button type='submit' class='btn btn-danger btn-sm' name='btn-eliminar' value='{$fila['id']}'>Eliminar</button>
+                        <button type='submit' class='btn btn-danger btn-sm' name='btn-eliminar' value='$id'>Eliminar</button>
                     </form>
                 </td>
               </tr>";
-        }
 
+            //Sumamos al contador.
+            $contador++;
+        }
         echo "</tbody></table>";
         echo "</div></div>";
 
@@ -122,6 +134,15 @@ if (!isset($_SESSION['user_id'])) {
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+
+
+    //Solución temporal para que cada vez que se recarga la página no cree tareas repetidas.
+    <script>
+        if (window.history.replaceState) {
+            window.history.replaceState(null, null, window.location.href);
+        }
+    </script>
 </body>
 
 </html>
