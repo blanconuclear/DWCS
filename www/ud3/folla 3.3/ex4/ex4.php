@@ -37,6 +37,9 @@
 			<button name="listar_todos" type="submit">Lista todos os temas</button>
 			<button name="ordenar_titulo" type="submit">Listar ordenados polo título</button>
 			<button name="ordenar_autor" type="submit">Lista ordenados polo autor</button>
+
+			<button name="engadir_rexistro" type="submit">Engadir Rexistro</button>
+
 		</form>
 
 		<?php
@@ -52,39 +55,43 @@
 		}
 		$conexion->set_charset("utf8");
 
-		// Listar todos los temas si no se ha presionado ningún botón de ordenación
-		if (isset($_POST['listar_todos'])) {
-			$sentenciaDatos = $conexion->prepare("SELECT * FROM tema");
-			$sentenciaDatos->execute();
-			$resultado = $sentenciaDatos->get_result();
-		}
-		// Ordenar por autor alfabéticamente
-		elseif (isset($_POST['ordenar_autor'])) {
-			$sentenciaDatos = $conexion->prepare("SELECT * FROM tema ORDER BY Autor ASC");
-			$sentenciaDatos->execute();
-			$resultado = $sentenciaDatos->get_result();
-		}
-		// Ordenar por título alfabéticamente
-		elseif (isset($_POST['ordenar_titulo'])) {
-			$sentenciaDatos = $conexion->prepare("SELECT * FROM tema ORDER BY Titulo ASC");
-			$sentenciaDatos->execute();
-			$resultado = $sentenciaDatos->get_result();
-		}
-		// Si no se ha presionado ningún botón, listar todos los temas por defecto
-		else {
-			$sentenciaDatos = $conexion->prepare("SELECT * FROM tema");
-			$sentenciaDatos->execute();
-			$resultado = $sentenciaDatos->get_result();
+		// Mostrar formulario para agregar un nuevo registro
+		if (isset($_POST['engadir_rexistro'])) {
+			echo "
+			<form method='post' action='' enctype='multipart/form-data'>
+				<label for='nuevo_titulo'>Título:</label>
+				<input type='text' id='nuevo_rexistro_titulo' name='nuevo_rexistro_titulo' required>
+	
+				<label for='nuevo_autor'>Autor:</label>
+				<input type='text' id='nuevo_rexistro_autor' name='nuevo_rexistro_autor' required>
+	
+				<label for='nuevo_año'>Año:</label>
+				<input type='number' id='nuevo_rexistro_año' name='nuevo_rexistro_año' required>
+	
+				<label for='nuevo_tiempo'>Tiempo:</label>
+				<input type='text' id='nuevo_rexistro_tiempo' name='nuevo_rexistro_tiempo' required>
+	
+				<label for='nuevo_img'>Imagen:</label>
+				<input type='file' id='nuevo_rexistro_img' name='nuevo_rexistro_img' >
+	
+				<button type='submit' name='guardar_nuevo_registro'>Guardar Nuevo</button>
+			</form>
+		";
 		}
 
-		// Eliminar registro
-		if (isset($_POST['eliminar_rexistro'])) {
-			$titulo = urldecode($_POST['eliminar_rexistro']);
+		// Procesar la creación del título, autor, año, segundos,img
+		if (isset($_POST['guardar_nuevo_registro'])) {
+			$nuevo_registro_titulo = $_POST['nuevo_rexistro_titulo'];
+			$nuevo_registro_autor = $_POST['nuevo_rexistro_autor'];
+			$nuevo_registro_anho = $_POST['nuevo_rexistro_año'];
+			$nuevo_registro_tiempo = $_POST['nuevo_rexistro_tiempo'];
 
-			$sentenciaEliminar = $conexion->prepare("DELETE FROM tema WHERE Titulo = ?");
-			$sentenciaEliminar->bind_param("s", $titulo);
-			$sentenciaEliminar->execute();
-			$sentenciaEliminar->close();
+			// Consulta para insertar el nuevo registro
+			$sentenciaCrear = $conexion->prepare("INSERT INTO tema (Titulo, Autor, Ano, Duracion, Imaxe) 
+								 VALUES (?,?,?,?,'img_prueba')");
+
+			$sentenciaCrear->bind_param("ssss", $nuevo_registro_titulo, $nuevo_registro_autor, $nuevo_registro_anho, $nuevo_registro_tiempo);
+			$sentenciaCrear->execute();
 		}
 
 		// Mostrar formulario para editar título y autor
@@ -129,6 +136,45 @@
 			$sentenciaEditar->bind_param("ssssss", $nuevo_titulo, $nuevo_autor, $nuevo_año, $nuevo_tiempo, $nuevo_img, $titulo_actual);
 			$sentenciaEditar->execute();
 		}
+
+
+		// Eliminar registro
+		if (isset($_POST['eliminar_rexistro'])) {
+			$titulo = urldecode($_POST['eliminar_rexistro']);
+
+			$sentenciaEliminar = $conexion->prepare("DELETE FROM tema WHERE Titulo = ?");
+			$sentenciaEliminar->bind_param("s", $titulo);
+			$sentenciaEliminar->execute();
+			$sentenciaEliminar->close();
+		}
+
+		// Listar todos los temas si no se ha presionado ningún botón de ordenación
+		if (isset($_POST['listar_todos'])) {
+			$sentenciaDatos = $conexion->prepare("SELECT * FROM tema");
+			$sentenciaDatos->execute();
+			$resultado = $sentenciaDatos->get_result();
+		}
+		// Ordenar por autor alfabéticamente
+		elseif (isset($_POST['ordenar_autor'])) {
+			$sentenciaDatos = $conexion->prepare("SELECT * FROM tema ORDER BY Autor ASC");
+			$sentenciaDatos->execute();
+			$resultado = $sentenciaDatos->get_result();
+		}
+		// Ordenar por título alfabéticamente
+		elseif (isset($_POST['ordenar_titulo'])) {
+			$sentenciaDatos = $conexion->prepare("SELECT * FROM tema ORDER BY Titulo ASC");
+			$sentenciaDatos->execute();
+			$resultado = $sentenciaDatos->get_result();
+		}
+		// Si no se ha presionado ningún botón, listar todos los temas por defecto
+		else {
+			$sentenciaDatos = $conexion->prepare("SELECT * FROM tema");
+			$sentenciaDatos->execute();
+			$resultado = $sentenciaDatos->get_result();
+		}
+
+
+
 
 		// Mostrar los temas
 		while ($fila = $resultado->fetch_array(MYSQLI_BOTH)) {
