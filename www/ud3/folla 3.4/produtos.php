@@ -34,22 +34,63 @@ if ($familia === 'todos') {
     $resultado = $consulta->get_result();
 }
 
+?>
 
-while ($fila = $resultado->fetch_assoc()) {
-    $id = $fila['id'];
-    $nombre = $fila['nombre'];
-    $nombreCorto = $fila['nombre_corto'];
-    $descripcion = $fila['descripcion'];
-    $pvp = $fila['pvp'];
-    $familia = $fila['familia'];
+<!DOCTYPE html>
+<html lang="en">
 
-    echo "Nome: $nombre, Familia: $familia<br>";
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
 
-    print_r($fila);
-    echo "<br>";
-}
+<body>
+    <table border="1px">
+        <tr>
+            <th>id</th>
+            <th>Nombre</th>
+            <th>Nombre_corto</th>
+            <th>Descripción</th>
+            <th>Pvp</th>
+            <th>Familia</th>
+            <th>Detalle</th>
+        </tr>
+        <?php
+        while ($fila = $resultado->fetch_assoc()) {
+            $id = $fila['id'];
+            $nombre = $fila['nombre'];
+            $nombreCorto = $fila['nombre_corto'];
+            $descripcion = $fila['descripcion'];
+            $pvp = $fila['pvp'];
+            $familia = $fila['familia'];
 
 
+            echo "<tr>";
+            echo "<th>" . $id . "</th>";
+            echo "<th>" . $nombre . "</th>";
+            echo "<th>" . $nombreCorto . "</th>";
+            echo "<th>" . substr($descripcion, 0, 100) . "..." . "</th>";
+            echo "<th>" . $pvp . "</th>";
+            echo "<th>" . $familia . "</th>";
+            echo "<th>
+            <form action='detalle.php' method='get'>
+                <button type='submit' name='btn_detalle' value='$id'>Detalle</button>
+            </form>
+          </th>";
+            echo "</tr>";
+        }
+        ?>
+    </table>
+
+    <button><a href="inicio.php">Inicio</a></button>
+</body>
+
+</html>
+
+<?php
 // Pechar a conexión
 $consulta->close();
 $conexion->close();
+
+?>
