@@ -83,6 +83,8 @@ if (isset($_POST['btn_nuevo_producto'])) {
     $sentenciaInsertar->close();
 }
 
+
+
 ?>
 
 </html>
