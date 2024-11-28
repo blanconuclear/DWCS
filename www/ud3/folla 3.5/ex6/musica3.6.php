@@ -83,6 +83,7 @@
 
 		// Procesar la creación del título, autor, año, segundos,img
 		if (isset($_POST['guardar_nuevo_registro'])) {
+			$stmt=$pdo->prepare("")
 		}
 
 		// Mostrar formulario para editar título y autor
@@ -114,18 +115,28 @@
 
 		// Procesar la actualización del título, autor, año, duración, imagen
 		if (isset($_POST['guardar_cambio'])) {
-			$titulo_actual = $_POST['titulo_actual'];
+			$titulo_actual = urldecode($_POST['titulo_actual']);
 			$nuevo_titulo = $_POST['nuevo_titulo'];
 			$nuevo_autor = $_POST['nuevo_autor'];
 			$nuevo_año = $_POST['nuevo_año'];
 			$nuevo_tiempo = $_POST['nuevo_tiempo'];
-			$nuevo_img = $_POST['nuevo_img'];
+			$nuevo_img = "Born to run";
+
+			$stmt = $pdo->prepare("UPDATE tema SET Titulo = :nuevo_titulo, Autor = :autor, Ano = :ano, Duracion = :duracion, Imaxe = :imaxe 
+								   WHERE Titulo = :titulo_actual");
+			$stmt->bindParam(':nuevo_titulo', $nuevo_titulo);
+			$stmt->bindParam(':titulo_actual', $titulo_actual);
+			$stmt->bindParam(':autor', $nuevo_autor);
+			$stmt->bindParam(':ano', $nuevo_año);
+			$stmt->bindParam(':duracion', $nuevo_tiempo);
+			$stmt->bindParam(':imaxe', $nuevo_img);
+
+			$stmt->execute();
 		}
 
 
 		// Eliminar registro
 		if (isset($_POST['eliminar_rexistro'])) {
-			echo "HOla";
 			$titulo = urldecode($_POST['eliminar_rexistro']);
 
 			$sql = "DELETE FROM tema WHERE titulo = :titulo";
@@ -135,12 +146,18 @@
 
 		// Listar todos los temas si no se ha presionado ningún botón de ordenación
 		if (isset($_POST['listar_todos'])) {
+			$pdoStatement = $pdo->query("select * from tema");
+			$pdoStatement->execute();
 		}
 		// Ordenar por autor alfabéticamente
 		elseif (isset($_POST['ordenar_autor'])) {
+			$pdoStatement = $pdo->query("SELECT * from tema ORDER BY autor");
+			$pdoStatement->execute();
 		}
 		// Ordenar por título alfabéticamente
 		elseif (isset($_POST['ordenar_titulo'])) {
+			$pdoStatement = $pdo->query("SELECT * from tema ORDER BY titulo");
+			$pdoStatement->execute();
 		}
 		// Si no se ha presionado ningún botón, listar todos los temas por defecto
 		else {
@@ -174,7 +191,7 @@
 			// Botones de eliminar y editar
 			echo "<form action='' method='POST' style='display:inline;'>";
 			echo "<button type='submit' name='eliminar_rexistro' value='" . urlencode($titulo) . "'>Eliminar Rexistro</button>";
-			echo "<button type='submit' name='editar_rexistro' value='$titulo'>Editar Rexistro</button>";
+			echo "<button type='submit' name='editar_rexistro' value='" . urlencode($titulo) . "'>Editar Rexistro</button>";
 			echo "</form>";
 			echo "</div>";
 		}
