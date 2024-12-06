@@ -18,12 +18,7 @@ function ordenar_libros($libros)
     return $libros;
 }
 
-
 $numeroTotalExemplares = 0;
-
-$texto = $_GET['buscarExemplar'];
-
-
 ?>
 
 <!DOCTYPE html>
@@ -61,7 +56,6 @@ $texto = $_GET['buscarExemplar'];
         </tr>
         <?php
         if (isset($_GET['listadoCompleto'])) {
-            // Mostrar listado completo
             foreach ($libros as $libro) {
                 echo "<tr>";
                 echo "<td>{$libro[0]}</td>";
@@ -74,7 +68,6 @@ $texto = $_GET['buscarExemplar'];
         }
 
         if (isset($_GET['listadoOrdenado'])) {
-            // Mostrar listado ordenado polo título
             $libros_ordenados = ordenar_libros($libros);
             foreach ($libros_ordenados as $libro) {
                 echo "<tr>";
@@ -87,10 +80,10 @@ $texto = $_GET['buscarExemplar'];
             }
         }
 
-        if (isset($_GET['buscar'])) {
-
+        if (isset($_GET['buscar']) && !empty($_GET['buscarExemplar'])) {
+            $texto = trim($_GET['buscarExemplar']);
             foreach ($libros as $libro) {
-                if (strcmp($libro[0], $texto) == 0) {
+                if (stripos($libro[0], $texto) !== false) {
                     echo "<tr>";
                     echo "<td>{$libro[0]}</td>";
                     echo "<td>{$libro[1]}</td>";
