@@ -1,39 +1,44 @@
 <?php
 // Incluimos el archivo con las pinturas
-include_once "pinturas.php";
+include_once "pinturas.php"; // Este archivo contiene el array $pinturas con la información de las pinturas
 
 // Función para ordenar por el nombre del autor
 function ordenarNomeAutor($pinturas)
 {
     uasort($pinturas, function ($a, $b) {
-        return strcmp($a[0], $b[0]); // Comparar cadenas alfabéticamente
+        return strcmp($a[0], $b[0]); // Compara alfabéticamente el nombre de los autores
     });
-    return $pinturas;
+    return $pinturas; // Devuelve el array ordenado
 }
 
+// Función para ordenar por el nombre del cuadro (clave del array)
 function ordenarPorPintura($pinturas)
 {
     uksort($pinturas, function ($a, $b) {
-        return strcmp($a, $b);
+        return strcmp($a, $b); // Compara alfabéticamente las claves (nombres de los cuadros)
     });
-    return $pinturas;
+    return $pinturas; // Devuelve el array ordenado
 }
 
+// Función para ordenar cronológicamente (por año, de menor a mayor)
 function ordenarCronoloxicamente($pinturas)
 {
     uasort($pinturas, function ($a, $b) {
-        return $a[1] - $b[1];
+        return $a[1] - $b[1]; // Compara los años numéricamente
     });
-    return $pinturas;
+    return $pinturas; // Devuelve el array ordenado
 }
 
+// Función para ordenar cronológicamente de mayor a menor (descendente)
 function ordenar_cronoloxicamenteDescendente($pinturas)
 {
     uasort($pinturas, function ($a, $b) {
-        return $b[1] - $a[1];
+        return $b[1] - $a[1]; // Compara los años en orden inverso
     });
-    return $pinturas;
+    return $pinturas; // Devuelve el array ordenado
 }
+
+$contador = 0;;
 ?>
 
 <!DOCTYPE html>
@@ -47,7 +52,10 @@ function ordenar_cronoloxicamenteDescendente($pinturas)
 
 <body>
 
+    <img src="/www/repaso-examen/repaso-tema2/The_Nightwatch_by_Rembrandt.webp" alt="">
+    <!-- Formulario con botones para seleccionar la acción -->
     <form action="" method="get">
+        <!-- Cada botón representa una acción distinta -->
         <button name="listado_completo">Listado Completo</button>
         <button name="ordenar_nome_autor">Ordenar por Nome do Autor</button>
         <button name="ordenar_nome_pintura">Ordenar por Nome da Pintura</button>
@@ -58,6 +66,7 @@ function ordenar_cronoloxicamenteDescendente($pinturas)
         <button name="eliminar_espazos">Eliminar Espazos</button>
         <button name="cambiar_letra">Cambiar Letra</button>
 
+        <!-- Campos de texto para buscar palabras en el título o autor -->
         <label for="buscar_palabra_titulo">Buscar palabra no título:</label>
         <input type="text" name="buscar_palabra_titulo">
         <label for="buscar_palabra_autor">Buscar palabra no autor:</label>
@@ -65,6 +74,7 @@ function ordenar_cronoloxicamenteDescendente($pinturas)
         <button name="buscar_palabra">Buscar</button>
     </form>
 
+    <!-- Tabla para mostrar los resultados -->
     <table border="1px">
         <tr>
             <th>Cuadro</th>
@@ -77,10 +87,12 @@ function ordenar_cronoloxicamenteDescendente($pinturas)
         if (isset($_GET['listado_completo'])) {
             foreach ($pinturas as $cuadro => $info) {
                 echo "<tr>";
-                echo "<td>" . $cuadro . "</td>";
-                echo "<td>" . $info[0] . "</td>";
-                echo "<td>" . $info[1] . "</td>";
+                echo "<td>" . $cuadro . "</td>"; // Nombre del cuadro
+                echo "<td>" . $info[0] . "</td>"; // Autor
+                echo "<td>" . $info[1] . "</td>"; // Año
                 echo "</tr>";
+
+                $contador++;
             }
         }
 
@@ -93,6 +105,8 @@ function ordenar_cronoloxicamenteDescendente($pinturas)
                 echo "<td>" . $info[0] . "</td>";
                 echo "<td>" . $info[1] . "</td>";
                 echo "</tr>";
+
+                $contador++;
             }
         }
 
@@ -136,8 +150,8 @@ function ordenar_cronoloxicamenteDescendente($pinturas)
         if (isset($_GET['pasar_maiusculas'])) {
             foreach ($pinturas as $cuadro => $info) {
                 echo "<tr>";
-                echo "<td>" . strtoupper($cuadro) . "</td>";
-                echo "<td>" . strtoupper($info[0]) . "</td>";
+                echo "<td>" . strtoupper($cuadro) . "</td>"; // Convierte el título a mayúsculas
+                echo "<td>" . strtoupper($info[0]) . "</td>"; // Convierte el autor a mayúsculas
                 echo "<td>" . $info[1] . "</td>";
                 echo "</tr>";
             }
@@ -147,8 +161,8 @@ function ordenar_cronoloxicamenteDescendente($pinturas)
         if (isset($_GET['pasar_minusculas'])) {
             foreach ($pinturas as $cuadro => $info) {
                 echo "<tr>";
-                echo "<td>" . strtolower($cuadro) . "</td>";
-                echo "<td>" . strtolower($info[0]) . "</td>";
+                echo "<td>" . strtolower($cuadro) . "</td>"; // Convierte el título a minúsculas
+                echo "<td>" . strtolower($info[0]) . "</td>"; // Convierte el autor a minúsculas
                 echo "<td>" . $info[1] . "</td>";
                 echo "</tr>";
             }
@@ -158,7 +172,7 @@ function ordenar_cronoloxicamenteDescendente($pinturas)
         if (isset($_GET['eliminar_espazos'])) {
             foreach ($pinturas as $cuadro => $info) {
                 echo "<tr>";
-                echo "<td>" . str_replace(" ", "", $cuadro) . "</td>";
+                echo "<td>" . str_replace(" ", "", $cuadro) . "</td>"; // Elimina los espacios del título
                 echo "<td>" . $info[0] . "</td>";
                 echo "<td>" . $info[1] . "</td>";
                 echo "</tr>";
@@ -169,8 +183,8 @@ function ordenar_cronoloxicamenteDescendente($pinturas)
         if (isset($_GET['cambiar_letra'])) {
             foreach ($pinturas as $cuadro => $info) {
                 echo "<tr>";
-                echo "<td>" . str_replace("o", "u", $cuadro) . "</td>";
-                echo "<td>" . str_replace("o", "u", $info[0]) . "</td>";
+                echo "<td>" . str_replace("o", "u", $cuadro) . "</td>"; // Reemplaza "o" por "u" en el título
+                echo "<td>" . str_replace("o", "u", $info[0]) . "</td>"; // Reemplaza "o" por "u" en el autor
                 echo "<td>" . $info[1] . "</td>";
                 echo "</tr>";
             }
@@ -178,8 +192,8 @@ function ordenar_cronoloxicamenteDescendente($pinturas)
 
         // Buscar palabra en título o autor
         if (isset($_GET['buscar_palabra'])) {
-            $buscar_titulo = $_GET['buscar_palabra_titulo'] ?? '';
-            $buscar_autor = $_GET['buscar_palabra_autor'] ?? '';
+            $buscar_titulo = $_GET['buscar_palabra_titulo'] ?? ''; // Palabra a buscar en el título
+            $buscar_autor = $_GET['buscar_palabra_autor'] ?? ''; // Palabra a buscar en el autor
 
             foreach ($pinturas as $cuadro => $info) {
                 $enTitulo = $buscar_titulo && strpos(strtolower($cuadro), strtolower($buscar_titulo)) !== false;
@@ -197,6 +211,10 @@ function ordenar_cronoloxicamenteDescendente($pinturas)
         ?>
     </table>
 
+    <?php
+    echo "Mostramos " . $contador . " filas de un total de " . count($pinturas);
+
+    ?>
 </body>
 
 </html>

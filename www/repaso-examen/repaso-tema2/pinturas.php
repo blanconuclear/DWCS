@@ -8,5 +8,5 @@ $pinturas = array(
     "Un domingo pola tarde na illa de Grand Jatte" => array("Georges Seurat", 1884),
     "A ronda de noite" => array("Rembrandt", 1642),
     "O bico" => array("Gustav Klimt", 1908),
-    "As meninas" => array("Diego Velázquez", 1656)
+    "as meninas" => array("Diego Velázquez", 1656)
 );
