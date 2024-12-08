@@ -52,7 +52,6 @@ $contador = 0;;
 
 <body>
 
-    <img src="/www/repaso-examen/repaso-tema2/The_Nightwatch_by_Rembrandt.webp" alt="">
     <!-- Formulario con botones para seleccionar la acción -->
     <form action="" method="get">
         <!-- Cada botón representa una acción distinta -->
