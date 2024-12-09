@@ -188,14 +188,7 @@ function mostrarDatos($pinturas)
 
         if (isset($_GET['ordenar_nome_autor'])) {
             $pinturas_ordenadas = ordenarNomeAutor($pinturas);
-
-            foreach ($pinturas_ordenadas as $cuadro => $info) {
-                echo "<tr>";
-                echo "<td>" . $cuadro . "</td>";
-                echo "<td>" . $info[0] . "</td>";
-                echo "<td>" . $info[1] . "</td>";
-                echo "</tr>";
-            }
+            mostrarDatos($pinturas_ordenadas);
         }
 
         if (isset($_GET['ordenar_nome_pintura'])) {

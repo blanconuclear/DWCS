@@ -83,7 +83,7 @@
 
 		// Procesar la creación del título, autor, año, segundos,img
 		if (isset($_POST['guardar_nuevo_registro'])) {
-			$stmt=$pdo->prepare("")
+			$stmt = $pdo->prepare("");
 		}
 
 		// Mostrar formulario para editar título y autor
