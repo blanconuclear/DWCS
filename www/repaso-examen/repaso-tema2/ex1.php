@@ -38,7 +38,7 @@ function ordenar_cronoloxicamenteDescendente($pinturas)
     return $pinturas; // Devuelve el array ordenado
 }
 
-$contador = 0;;
+$contador = 0;
 ?>
 
 <!DOCTYPE html>

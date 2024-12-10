@@ -1,18 +1,41 @@
 <?php
-$pinturas = array(
-    "Mona Lisa" => array("Leonardo da Vinci", 1510),
-    "A noite estrelada" => array("Vincent Van Gogh", 1889),
-    "O berro" => array("Edvard  Munch", 1893),
-    "Guernica" => array("Pablo Picasso", 1937),
-    "A persistencia da memoria" => array("Salvador Dalí", 1931),
-    "Un domingo pola tarde na illa de Grand Jatte" => array("Georges Seurat", 1884),
-    "A ronda de noite" => array("Rembrandt", 1642),
-    "O bico" => array("Gustav Klimt", 1908),
-    "As meninas" => array("Diego Velázquez", 1656)
+// $distancias = array(
+//     array("Orixe" => "Madrid", "Destino" => "Segovia", "Distancia" => 90201),
+//     array("Orixe" => "Madrid", "Destino" => "A Coruña", "Distancia" => 596887),
+//     array("Orixe" => "Barcelona", "Destino" => "Cádiz", "Distancia" => 1152669),
+//     array("Orixe" => "Bilbao", "Destino" => "Valencia", "Distancia" => 622233),
+//     array("Orixe" => "Sevilla", "Destino" => "Santander", "Distancia" => 832067),
+//     array("Orixe" => "Oviedo", "Destino" => "Badajoz", "Distancia" => 682429)
+// );
+
+$distancias = array(
+    array(
+        "viaxe" => array("Orixe" => "Madrid", "Destino" => "Segovia", "Distancia" => 90201)
+    ),
+    array(
+        "viaxe" => array("Orixe" => "Madrid", "Destino" => "A Coruña", "Distancia" => 596887)
+    ),
+    array(
+        "viaxe" => array("Orixe" => "Barcelona", "Destino" => "Cádiz", "Distancia" => 1152669)
+    ),
+    array(
+        "viaxe" => array("Orixe" => "Bilbao", "Destino" => "Valencia", "Distancia" => 622233)
+    ),
+    array(
+        "viaxe" => array("Orixe" => "Sevilla", "Destino" => "Santander", "Distancia" => 832067)
+    ),
+    array(
+        "viaxe" => array("Orixe" => "Oviedo", "Destino" => "Badajoz", "Distancia" => 682429)
+    )
 );
 
-$cidades = array("francia toma" => "París", "EEUU" => "New York", "Inglaterra" => "Londres");
-
-
-
-print_r(ucfirst($cidades[0]));
+foreach ($distancias as $viaxe) {
+    // Acceder correctamente a los valores dentro del array
+    echo "<br>";
+    echo $viaxe['viaxe']['Orixe'];  // Acceder al valor de 'Orixe'
+    echo "<br>";
+    echo $viaxe['viaxe']['Destino'];  // Acceder al valor de 'Destino'
+    echo "<br>";
+    echo $viaxe['viaxe']['Distancia'];  // Acceder al valor de 'Distancia'
+    echo "<br>";
+}
