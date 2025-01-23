@@ -25,7 +25,7 @@ if ($resultado && password_verify($passwd, $resultado['passwd'])) {
 
     // Redirigir al usuario a la página "mostra.php"
     header('Location: mostra.php');
-    exit(); // Asegurarse de que el script termine después de redirigir
+    exit();
 } else {
     echo "Usuario o contraseña incorrectos. <a href='login.php'>Intentar de nuevo</a>";
 }
