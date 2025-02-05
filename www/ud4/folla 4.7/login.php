@@ -28,6 +28,14 @@ session_start();
                         <label for="contrasinal" class="form-label">Contrasinal:</label>
                         <input type="password" class="form-control" id="contrasinal" name="contrasinal" required>
                     </div>
+                    <div class="mb-3">
+                        <label for="idioma" class="form-label">Idioma:</label>
+                        <select class="form-select" id="idioma" name="idioma" required>
+                            <option value="gl">Galego</option>
+                            <option value="es">Español</option>
+                            <option value="en">English</option>
+                        </select>
+                    </div>
                     <div class="d-grid">
                         <button type="submit" class="btn btn-primary">Iniciar sesión</button>
                     </div>

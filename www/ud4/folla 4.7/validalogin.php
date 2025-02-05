@@ -5,6 +5,7 @@ require_once "conexion.php";
 
 $nomeUsuario = $_POST['nomeUsuario'];
 $contrasinal = $_POST['contrasinal'];
+$idioma = $_POST['idioma'];
 
 $sql = "SELECT * FROM usuarios WHERE nomeUsuario=:nomeUsuario";
 $stmt = $pdo->prepare($sql);
@@ -19,6 +20,13 @@ if ($resultado && password_verify($contrasinal, $resultado['contrasinal'])) {
         'nomeUsuario' => $resultado['nomeUsuario'],
         'rol' => $resultado['rol']
     ];
+
+    $fecha = date('Y-m-d H:i:s');
+    $updateSql = "UPDATE usuarios SET ultimaConexion = :ultimaConexion WHERE id = :id";
+    $pdo->prepare($updateSql)->execute([':ultimaConexion' => $fecha, ':id' => $resultado['id']]);
+
+
+    setcookie('idioma', $idioma, time() + 300, '/');
 
     header("Location: mostra.php");
 } else {
