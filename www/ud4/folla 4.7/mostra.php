@@ -5,12 +5,12 @@ require_once 'conexion.php';
 $idioma = $_COOKIE['idioma'];
 
 $mensajes = [
-    'es' => '¡Bienvenido!',
-    'en' => 'Welcome!',
-    'gl' => 'Benvido!',
+    'es' => 'Bienvenido',
+    'en' => 'Welcome',
+    'gl' => 'Benvido',
 ];
 
-echo "<h1>" . $mensajes[$idioma]  . "</h1>";
+echo "<h1>" . $_SESSION['usuario']['nomeUsuario'] . " " . $mensajes[$idioma]  . " !</h1>";
 
 // Mostrar productos
 $stmt = $pdo->query("SELECT * FROM productos");
