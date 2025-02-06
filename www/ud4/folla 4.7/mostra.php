@@ -31,6 +31,23 @@ foreach ($productos as $producto) {
     echo "<h3>Comentarios</h3>";
     foreach ($comentarios as $comentario) {
         echo "<p>" . $comentario['Comentario'] . "</p>";
+
+        //Delete comentario
+        if ($_SESSION['usuario']['rol'] == 'moderador' || $_SESSION['usuario']['rol'] == "administrador") {
+            echo "<form action='' method='post'>";
+            echo "<button name='btnBorrar' value='{$comentario["id"]}'>Borrar</button>";
+            echo "</form>";
+        }
+    }
+
+    //Borrar comentario
+    if (isset($_POST['btnBorrar'])) {
+        $idComentario = $_POST['btnBorrar'];
+        $sql = "DELETE FROM comentarios WHERE id = :idcomentario";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([
+            ':idcomentario' => $idComentario
+        ]);
     }
 
     if ($_SESSION['usuario']['rol'] == 'usuario') {
@@ -44,21 +61,7 @@ foreach ($productos as $producto) {
 }
 
 if ($_SESSION['usuario']['rol'] == 'moderador' || $_SESSION['usuario']['rol'] == "administrador") {
-    echo "<h2>Comentarios pendentes de moderación</h2>";
-    $stmt = $pdo->query("SELECT * FROM comentarios WHERE moderado = 'non'");
-    $comentariosPendentes = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-    foreach ($comentariosPendentes as $comentario) {
-        echo "<p>" . $comentario['Comentario'] . "</p>";
-        echo "<form action='moderarComentario.php' method='post'>";
-        echo "<input type='hidden' name='idComentario' value='" . $comentario['id'] . "'>";
-        echo "<input type='submit' name='accion' value='Aprobar'>";
-        echo "<input type='submit' name='accion' value='Rechazar'>";
-        echo "</form>";
-    }
-
-    echo " <a href='xestionaComentarios.php'>Xestionar Comentarios</a>
-    <a href='xestionaProdutos.php'>Xestionar Produtos</a>";
+    echo " <a href='moderarComentario.php'>Xestionar Comentarios</a>";
 }
 
 echo "<br>";

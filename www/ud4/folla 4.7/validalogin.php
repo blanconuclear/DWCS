@@ -18,7 +18,8 @@ $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
 if ($resultado && password_verify($contrasinal, $resultado['contrasinal'])) {
     $_SESSION['usuario'] = [
         'nomeUsuario' => $resultado['nomeUsuario'],
-        'rol' => $resultado['rol']
+        'rol' => $resultado['rol'],
+        'idUsuario' => $resultado['id']
     ];
 
     $fecha = date('Y-m-d H:i:s');
