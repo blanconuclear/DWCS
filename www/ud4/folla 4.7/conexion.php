@@ -1,7 +1,7 @@
 <?php
 $servidor = "dbXdebug";
-$usuario = "root";
-$pass = "root";
+$usuario = "Tarefa";
+$pass = "Tarefa4.7";
 $bbdd = "tarefa4.7";
 
 try {

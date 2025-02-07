@@ -29,7 +29,13 @@ if ($resultado && password_verify($contrasinal, $resultado['contrasinal'])) {
 
     setcookie('idioma', $idioma, time() + 300, '/');
 
+    // if ($_SESSION['usuario']['rol'] == 'administrador') {
+    //     header("Location: panelAdmin.php");
+    //     exit();
+    // }
+
     header("Location: mostra.php");
+    exit();
 } else {
     echo "Nome de usuario ou contrasinal incorrecto.";
 }

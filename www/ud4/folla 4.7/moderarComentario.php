@@ -11,7 +11,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['idComentario']) && iss
     // Determinar si se aprueba o rechaza el comentario
     $moderado = ($accion === 'Aprobar') ? 'si' : 'non';
 
-
     $sql = "UPDATE comentarios SET dataModeracion = :dataModeracion, moderado = :moderado WHERE id = :idComentario";
     $stmt = $pdo->prepare($sql);
     $stmt->execute([
@@ -20,26 +19,56 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['idComentario']) && iss
         ':idComentario' => $idComentario
     ]);
 
-    header("Location: mostra.php");
+    header("Location: moderarComentario.php");
     exit();
 }
 
-echo "<h2>Comentarios pendentes de moderación</h2>";
-$stmt = $pdo->query("SELECT c.*, p.nome AS nomeProduto FROM comentarios c JOIN productos p ON c.idProduto = p.idProduto WHERE c.moderado = 'non'");
-$comentariosPendentes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+?>
 
-foreach ($comentariosPendentes as $comentario) {
-    echo "<p><strong>Producto:</strong> " . htmlspecialchars($comentario['nomeProduto']) . "</p>";
-    echo "<p><strong>Usuario:</strong> " . htmlspecialchars($comentario['usuario']) . "</p>";
-    echo "<p><strong>Comentario:</strong> " . htmlspecialchars($comentario['Comentario']) . "</p>";
-    echo "<form action='moderarComentario.php' method='post'>";
-    echo "<input type='hidden' name='idComentario' value='" . $comentario['id'] . "'>";
-    echo "<input type='submit' name='accion' value='Aprobar'>";
-    echo "<input type='submit' name='accion' value='Rechazar'>";
-    echo "</form>";
-}
+<!DOCTYPE html>
+<html lang="es">
 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Moderar Comentarios</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
 
-echo " <a href='mostra.php'>Xestionar Comentarios</a>";
-echo "<br>";
-echo "<a href='pechaSesion.php'>Pechar Sesión</a>";
+<body class="container mt-4">
+
+    <h2 class="text-center">Comentarios pendientes de moderación</h2>
+
+    <div class="container">
+        <?php
+        $stmt = $pdo->query("SELECT c.*, p.nome AS nomeProduto FROM comentarios c JOIN productos p ON c.idProduto = p.idProduto WHERE c.moderado = 'non'");
+        $comentariosPendentes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        if (empty($comentariosPendentes)) {
+            echo "<p class='text-center text-muted'>No hay comentarios pendientes de moderación.</p>";
+        } else {
+            foreach ($comentariosPendentes as $comentario) { ?>
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">Producto: <?php echo htmlspecialchars($comentario['nomeProduto']); ?></h5>
+                        <p class="card-text"><strong>Usuario:</strong> <?php echo htmlspecialchars($comentario['usuario']); ?></p>
+                        <p class="card-text"><strong>Comentario:</strong> <?php echo htmlspecialchars($comentario['Comentario']); ?></p>
+                        <form action="moderarComentario.php" method="post">
+                            <input type="hidden" name="idComentario" value="<?php echo $comentario['id']; ?>">
+                            <button type="submit" name="accion" value="Aprobar" class="btn btn-success btn-sm">Aprobar</button>
+                            <button type="submit" name="accion" value="Rechazar" class="btn btn-danger btn-sm">Rechazar</button>
+                        </form>
+                    </div>
+                </div>
+        <?php }
+        } ?>
+    </div>
+
+    <div class="text-center mt-3">
+        <a href="mostra.php" class="btn btn-warning">Mostrar produtos</a>
+        <a href="pechaSesion.php" class="btn btn-secondary">Cerrar Sesión</a>
+    </div>
+
+</body>
+
+</html>
