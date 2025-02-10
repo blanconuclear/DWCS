@@ -25,7 +25,7 @@ $mensajes = [
 <body class="container mt-4">
 
     <h1 class="text-center">
-        <?php echo $_SESSION['usuario']['nomeUsuario'] . " " . $mensajes[$idioma] . " !"; ?>
+        <?php echo $mensajes[$idioma] . " " . $_SESSION['usuario']['nomeUsuario'] . "!"; ?>
     </h1>
 
     <div class="container">

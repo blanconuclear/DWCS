@@ -14,4 +14,5 @@ $stmt->execute([
     ':idProduto' => $idProduto,
     ':comentario' => $comentario
 ]);
+
 header("Location: mostra.php");

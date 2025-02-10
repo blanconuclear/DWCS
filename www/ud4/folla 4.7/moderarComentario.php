@@ -2,26 +2,32 @@
 session_start();
 require_once 'conexion.php';
 
-// Verificar si se ha enviado el formulario
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['idComentario']) && isset($_POST['accion'])) {
+
     $idComentario = $_POST['idComentario'];
     $accion = $_POST['accion'];
     $fecha = date('Y-m-d H:i:s');
 
-    // Determinar si se aprueba o rechaza el comentario
-    $moderado = ($accion === 'Aprobar') ? 'si' : 'non';
+    if ($accion === 'Aprobar') {
+        $sql = "UPDATE comentarios SET dataModeracion = :dataModeracion, moderado = 'si' WHERE id = :idComentario";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([
+            ':dataModeracion' => $fecha,
+            ':idComentario' => $idComentario
+        ]);
+    } elseif ($accion === 'Rechazar') {
+        $sql = "DELETE FROM comentarios WHERE id = :idComentario";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([
+            ':idComentario' => $idComentario
+        ]);
+    }
 
-    $sql = "UPDATE comentarios SET dataModeracion = :dataModeracion, moderado = :moderado WHERE id = :idComentario";
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute([
-        ':dataModeracion' => $fecha,
-        ':moderado' => $moderado,
-        ':idComentario' => $idComentario
-    ]);
 
     header("Location: moderarComentario.php");
     exit();
 }
+
 
 ?>
 
