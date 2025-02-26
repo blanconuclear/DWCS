@@ -11,6 +11,8 @@ class ClienteModelo extends Cliente
     {
         parent::__construct($nome, $apelidos, $email);
     }
+
+
     /* PARA Insertar un obxecto*/
     public function guardar(): bool
     {
@@ -42,16 +44,34 @@ class ClienteModelo extends Cliente
     }
     //... O RESTO DOS MÉTODOS DO CRUD
 
-    public static function borrarPorMail(string $email): PDOStatement
+    public static function borrarPorMail(string $email): bool
     {
         $conexion = new Conexion();
-
         try {
             $pdoStmt = $conexion->prepare("DELETE FROM " . self::TABLA . " WHERE email = :email");
-            $pdoStmt->execute([':email' => $email]);
+            return $pdoStmt->execute([':email' => $email]); // Retorna true si se ejecutó correctamente
         } catch (PDOException $e) {
-            die("Error al borrar cliente: " . $e->getMessage());
+            die("❌ Error al borrar cliente: " . $e->getMessage());
         }
-        return $pdoStmt;
+    }
+
+    public static function actualizarCliente(string $novoEmail, string $novoNome, string $novosApelidos, string $emailId): bool
+    {
+
+        $conexion = new Conexion();
+        try {
+            $sql = "UPDATE " . self::TABLA . " SET nome=:nome,apelidos=:apelidos,email=:email WHERE email = :emailId";
+            $stmt = $conexion->prepare($sql);
+            $resultado = $stmt->execute([
+                ':nome' => $novoNome,
+                ':apelidos' => $novosApelidos,
+                ':email' => $novoEmail,
+                ':emailId' => $emailId
+            ]);
+
+            return $resultado;
+        } catch (PDOException $e) {
+            die("❌ Error ao actualizar cliente: " . $e->getMessage());
+        }
     }
 }

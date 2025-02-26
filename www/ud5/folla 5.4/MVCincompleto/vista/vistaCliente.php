@@ -42,6 +42,7 @@
                   <td>
                     <form method='post'>
                           <button type='submit' name='eliminar' value='{$value['email']}'>Eliminar</button>
+                          <button type='submit' name='editar' value='{$value['email']}'>Editar</button>
                     </form>
                   </td>                  
                 </tr>";
@@ -58,6 +59,22 @@
             Email: <input type='email' name='email' required><br>
             <input type='submit' name='crear' value='Crear Cliente'>
         </form>";
+    }
+
+    if (isset($_POST['editar'])) {
+        $email = $_POST['editar'];
+
+
+
+        echo "<h3>Editar Cliente</h3>
+            <form action='ClienteControlador.php' method='POST'>
+                <input type='text' name='novoNome'>
+                <input type='text' name='novosApelidos' >
+                <input type='text' name='novoEmail' >
+             
+                <button type='submit' name='editarFinal' value='{$email}'>Editar</button>
+
+            </form>";
     }
 
 

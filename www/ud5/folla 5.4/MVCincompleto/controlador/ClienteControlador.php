@@ -22,7 +22,10 @@ if (isset($_GET['todos'])) {
 if (isset($_POST['eliminar'])) {
   $email = $_POST['eliminar'];
   ClienteModelo::borrarPorMail($email);
+  header('Location: ClienteControlador.php');
+  exit();
 }
+
 
 
 if (isset($_POST['crear'])) {
@@ -34,4 +37,18 @@ if (isset($_POST['crear'])) {
   $novoCliente->guardar();
 
   header('Location: ClienteControlador.php');
+  exit();
+}
+
+if (isset($_POST['editarFinal'])) {
+
+  $emailId = $_POST['editarFinal'];
+  $novoEmail = $_POST['novoEmail'] ?? null;
+  $novoNome = $_POST['novoNome'] ?? null;
+  $novosApelidos = $_POST['novosApelidos'] ?? null;
+
+  ClienteModelo::actualizarCliente($novoEmail, $novoNome, $novosApelidos, $emailId);
+
+  header('Location: ClienteControlador.php');
+  exit();
 }
