@@ -56,16 +56,38 @@ class ClienteModelo extends Cliente
         }
     }
 
-    public static function editarPorMail($emailParaBorrar): bool
+    public static function editarPorMail($nomeActualizado, $apelidosActualizado, $emailActualizado, $emailParaEditar): bool
     {
         $conexion = new Conexion();
 
         try {
-            $sql = "UPDATE " . self::TABLA . " SET nome=:nome ,apelidos=:apelidos,email=:email WHERE email:emailParaBorrar";
+            $sql = "UPDATE " . self::TABLA . " SET nome=:nome ,apelidos=:apelidos,email=:email WHERE email=:emailParaBorrar";
             $stmt = $conexion->prepare($sql);
-            return $stmt->execute([]);
-        } catch (\Throwable $th) {
-            //throw $th;
+            return $stmt->execute([
+                'nome' => $nomeActualizado,
+                'apelidos' => $apelidosActualizado,
+                'email' => $emailActualizado,
+                'emailParaBorrar' => $emailParaEditar
+            ]);
+        } catch (PDOException $e) {
+            die("Houbo un erro en devolveTodos" . $e->getMessage());
+        }
+    }
+
+    public static function buscarPorMail($email)
+    {
+        $conexion = new Conexion();
+
+        try {
+            $sql = "SELECT * FROM clientes WHERE email=:email";
+            $stmt = $conexion->prepare($sql);
+            $stmt->execute(['email' => $email]);
+
+            $cliente = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            return $cliente;
+        } catch (PDOException $e) {
+            die("Houbo un erro en devolveTodos: " . $e->getMessage());
         }
     }
 }

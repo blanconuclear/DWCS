@@ -31,6 +31,11 @@
                 <input type='submit' name='eliminar' value='eliminar'>
                 <input type='submit' name='crear' value='Crear cliente'>
               </form>";
+
+        echo "<form action='ClienteControlador.php' method='GET'>
+              <input type='text' name='buscarPorMail' >
+            <button type='submit' name='btnBuscarMail'>Buscar por mail</button>
+            </form>";
     }
 
 
@@ -69,15 +74,13 @@
     }
 
     if (isset($_POST['editar'])) {
-
         $emailParaEditar = $_POST['editar'];
-
         echo "<h3>Editar Cliente</h3>
         <form action='ClienteControlador.php' method='POST'>
             Nome: <input type='text' name='novoNome' required><br>
             Apelidos: <input type='text' name='novoApelidos' required><br>
             Email: <input type='email' name='novoEmail' required><br>
-            <button type='submit' name='bntActualizar' value='" . htmlspecialchars($emailParaEditar) . ">Actualizar cliente</button>
+            <button type='submit' name='bntActualizar' value='" . htmlspecialchars($emailParaEditar) . "'>Actualizar cliente</button>
         </form>";
     }
 

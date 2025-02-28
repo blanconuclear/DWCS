@@ -32,6 +32,22 @@ if (isset($_POST['bntCrear'])) {
   $novoCliente->guardar();
 }
 
-if (isset($_POST['btnEditar'])) {
-  echo "stamos aqui";
+if (isset($_POST['bntActualizar'])) {
+  $emailParaEditar = $_POST['bntActualizar'];
+
+  $nomeActualizado = $_POST['novoNome'];
+  $apelidosActualizado = $_POST['novoApelidos'];
+  $emailActualizado = $_POST['novoEmail'];
+
+  ClienteModelo::editarPorMail($nomeActualizado, $apelidosActualizado, $emailActualizado, $emailParaEditar);
+}
+
+
+if (isset($_GET['btnBuscarMail'])) {
+  $email = $_GET['buscarPorMail'];
+  $cliente = ClienteModelo::buscarPorMail($email);
+
+  if ($cliente) {
+    mostraTaboaCliente([$cliente]);
+  }
 }
