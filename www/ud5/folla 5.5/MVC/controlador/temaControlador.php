@@ -1,35 +1,35 @@
 <?php
 
-declare(strict_types=1);
-
-require_once '../modelo/TemaModelo.php';
 require_once '../vista/vistaTema.php';
+require_once '../modelo/TemaModelo.php';
 
-$arrayTemas = TemaModelo::mostrarTodos();
+$arrayTemas = TemaModelo::mostrartodos();
 
 
-buscarPorTitulo();
-if (isset($_GET['btnBuscarPorTitulo'])) {
-    $tituloParaBuscar =  $_GET['tituloParaBuscar'];
+if (isset($_POST['btnEliminar'])) {
+    $idTitulo = $_POST['btnEliminar'];
 
-    $tema = new TemaModelo($tituloParaBuscar, "", 0, 0, "");
-    $arrayTemas = $tema->buscarPorTitulo($tituloParaBuscar);
+    TemaModelo::borrarPorTitulo($idTitulo);
 }
 
-if (isset($_GET['btnBorrar'])) {
-    $tituloAEliminar = $_GET['btnBorrar'];
-    $tema = new TemaModelo($tituloAEliminar, "", 0, 0, "");
-    $tema->eliminar();
+if (isset($_POST['btnActualizar'])) {
+    formActualizar();
 }
 
-formInsertarTema();
-if (isset($_POST['btnInsertar'])) {
-    $titulo = $_POST["txtActualizarTitulo"];
-    $autor = $_POST["txtActualizarAutor"];
-    $ano = (int) $_POST["txtActualizarAno"];
-    $duracion = (int) $_POST["txtActualizarDuracion"];
-    $imaxe = $_POST["txtActualizarImaxe"];
+if (isset($_POST['btnActualizarFinal'])) {
+    echo "estás aquí";
+    $idTitulo = $_POST['btnActualizarFinal'];
+    $tituloActualizado = $_POST['actualizarTitulo'];
+    $autorActualizado = $_POST['actualizarAutor'];
+    $anoActualizado = intval($_POST['actualizarAno']);
+    $duracionActualizado = intval($_POST['actualizarDuracion']);
+    $imaxeActualizado = $_POST['actualizarImaxe'];
+
+    TemaModelo::actualizarPorTitulo($idTitulo, $tituloActualizado, $autorActualizado, $anoActualizado, $duracionActualizado, $imaxeActualizado);
+
+    $arrayTemas = TemaModelo::mostrartodos();
 }
 
 
-mostrarDatosHTML($arrayTemas);
+
+mostrarDatosHtml($arrayTemas);

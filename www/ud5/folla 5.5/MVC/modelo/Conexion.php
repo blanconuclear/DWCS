@@ -12,14 +12,15 @@ class Conexion extends PDO
 
     public function __construct()
     {
-        $this->dsn = "mysql:host={$this->host};dbname={$this->db};charset=utf8mb4";
+        $this->dsn = "mysql:host={$this->host};dbname={$this->db}";
 
         try {
             parent::__construct($this->dsn, $this->user, $this->pass);
+
             $this->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            echo "conexion ok";
         } catch (PDOException $e) {
-            die("Error en la conexión: " . $e->getMessage());
+            $e->getMessage();
+            die("erro na conexión");
         }
     }
 }

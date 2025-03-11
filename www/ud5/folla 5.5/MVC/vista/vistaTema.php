@@ -5,79 +5,48 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <style>
-        #contenedor {
-            width: 30%;
-            margin: 20px auto;
-            background-color: white;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            grid-gap: 5px;
-        }
-
-        .tema {
-            height: 210px;
-            background-color: white;
-            border: 1px black solid;
-            text-align: center;
-            padding-top: 20px;
-            font-family: Arial;
-        }
-
-        img {
-            width: 130px;
-            height: 130px;
-        }
-    </style>
 </head>
 
 <body>
     <?php
-    function mostrarDatosHTML($arrayTemas): void
+    function mostrarDatosHtml($arrayTemas)
     {
-        if (!empty($arrayTemas)) {
-            foreach ($arrayTemas as $tema) {
-                $titulo = $tema['Titulo'];
-                $srcImaxe = $tema['Imaxe'] . ".jpg";
+        foreach ($arrayTemas as $tema) {
+            $titulo = htmlspecialchars($tema['Titulo']);
+            $autor = htmlspecialchars($tema['Autor']);
+            $ano = htmlspecialchars($tema['Ano']);
+            $duracion = htmlspecialchars($tema['Duracion']);
+            $srcImaxe = htmlspecialchars($tema['Imaxe']) . ".jpg";
 
-                echo "<article id='contenedor'>
-                    <div class='tema'>
-                        <img src='imaxes/$srcImaxe'><br>
-                        <div>{$tema['Titulo']}</div>
-                        <div>{$tema['Autor']}</div>
-                        <div>{$tema['Duracion']}</div>
-                        <div>{$tema['Ano']}</div>
-                        <div>
-                        <form action='temaControlador.php'>
-                            <button name='btnBorrar' value='$titulo' >Delete</button>
-                        </form>
-                        </div>
-                    </div>
-                </article>";
-            }
+            echo "<article id='contenedor'>
+                <div class='tema'>
+                    <img src='../../imaxes/$srcImaxe' alt='$titulo'><br>
+                    <div>$titulo</div>
+                    <div>$autor</div>
+                    <div>$ano</div>
+                    <div>$duracion segundos</div>
+                </div>
+                <form action='TemaControlador.php' method='post'>
+                    <button type='submit' name='btnEliminar' value='$titulo'>Borrar</button>
+                    <button type='submit' name='btnActualizar' value='$titulo'>Actualizar</button>
+                </form>
+            </article>";
         }
     }
 
-
-    function buscarPorTitulo()
+    function formActualizar(): void
     {
-        echo "  <form action='temaControlador.php'>
-      <input type='text' placeholder='buscar por titulo' name='tituloParaBuscar' />
-      <button name='btnBuscarPorTitulo'>Buscar por titlo</button>
-    </form>";
-    }
-
-    function formInsertarTema()
-    {
+        $idTitulo = $_POST['btnActualizar'];
         echo '
-        <h1>Agregar tema</h1>
-        <form action="temaControlador.php" method="post">
-            <input type="text" name="novoTitulo" placeholder="Titulo"><br>
-            <input type="text" name="novoAutor" placeholder="Autor"><br>
-            <input type="number" name="novoAno" placeholder="Ano"><br>
-            <input type="number" name="novoDuracion" placeholder="Duración"><br>
-            <button type="submit" name="btnInsertar">Insertar</button>
-        </form>';
+            <h1>Actualizar por título</h1>
+            <form action="temaControlador.php" method="post">
+                <input type="text" name="actualizarTitulo" placeholder="Titulo"><br>
+                <input type="text" name="actualizarAutor" placeholder="Autor"><br>
+                <input type="number" name="actualizarAno" placeholder="Ano"><br>
+                <input type="number" name="actualizarDuracion" placeholder="Duración"><br>
+                <input type="text" name="actualizarImaxe" placeholder="Imaxe"><br>
+                <button type="submit" name="btnActualizarFinal" value="' . $idTitulo . '">Actualizar</button>
+            </form>';
     }
     ?>
 </body>

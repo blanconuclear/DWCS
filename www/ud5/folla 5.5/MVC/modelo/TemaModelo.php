@@ -2,51 +2,55 @@
 
 declare(strict_types=1);
 
-require_once 'Conexion.php';
+require_once 'conexion.php';
 require_once 'Tema.php';
 
 class TemaModelo extends Tema
 {
+
     public function __construct(string $titulo, string $autor, int $ano, int $duracion, string $imaxe)
     {
         parent::__construct($titulo, $autor, $ano, $duracion, $imaxe);
     }
 
-    public static function mostrarTodos(): array
+    public static function mostrartodos(): array
     {
         $pdo = new Conexion();
-        $query = $pdo->query("SELECT * FROM tema");
-        return $query->fetchAll(PDO::FETCH_ASSOC);
+        $sql = "SELECT * FROM tema";
+        $stmt = $pdo->query($sql);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function buscarPorTitulo(string $titulo): array
+    public static function borrarPorTitulo(string $idTitulo): bool
     {
         $pdo = new Conexion();
-        $query = $pdo->prepare("SELECT * FROM tema WHERE Titulo LIKE ?");
-        $query->execute(["%$titulo%"]);
-        return $query->fetchAll(PDO::FETCH_ASSOC);
+        $sql = "DELETE FROM tema WHERE Titulo = :titulo";
+        $stmt = $pdo->prepare($sql);
+        return $stmt->execute([
+            ':titulo' => $idTitulo
+        ]);
     }
 
-    public function insertar(): string
-    {
-        $pdo = new Conexion();
-        $query = $pdo->prepare("INSERT INTO tema (Titulo, Autor, Ano, Duracion, Imaxe) VALUES (?, ?, ?, ?, ?)");
-        $query->execute([$this->titulo, $this->autor, $this->ano, $this->duracion, $this->imaxe]);
-        return "Tema insertado correctamente.";
-    }
+    public static function actualizarPorTitulo(
+        string $idTitulo,
+        string $tituloActualizado,
+        string $autorActualizado,
+        int $anoActualizado,
+        int $duracionActualizado,
+        string $imaxeActualizado
+    ): bool {
 
-    public  function eliminar(): bool
-    {
         $pdo = new Conexion();
-        $query = $pdo->prepare("DELETE FROM tema WHERE Titulo = ?");
-        return $query->execute([$this->titulo]);
-    }
+        $sql = "UPDATE tema SET Titulo=:titulo, Autor=:autor, Ano=:ano, Duracion=:duracion, Imaxe=:imaxe WHERE Titulo=:idtitulo";
+        $stmt = $pdo->prepare($sql);
 
-    public function actualizar(string $tituloAnterior): string
-    {
-        $pdo = new Conexion();
-        $query = $pdo->prepare("UPDATE tema SET Titulo = ?, Autor = ?, Ano = ?, Duracion = ?, Imaxe = ? WHERE Titulo = ?");
-        $query->execute([$this->titulo, $this->autor, $this->ano, $this->duracion, $this->imaxe, $tituloAnterior]);
-        return "Tema actualizado correctamente.";
+        return $stmt->execute([
+            ':titulo' => $tituloActualizado,
+            ':autor' => $autorActualizado,
+            ':ano' => $anoActualizado,
+            ':duracion' => $duracionActualizado,
+            ':imaxe' => $imaxeActualizado,
+            ':idtitulo' => $idTitulo
+        ]);
     }
 }

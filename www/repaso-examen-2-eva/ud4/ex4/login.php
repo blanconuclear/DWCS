@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <form action="comprobarCredenciais.php" method="post">
+        <input type="text" name="nome" placeholder="nome">
+        <input type="password" name="pass" placeholder="pass">
+        <select name="selectIdioma">
+            <option value="ingles">ingles</option>
+            <option value="galego">galego</option>
+        </select>
+        <button name="btnLogin" type="submit">Enviar</button>
+    </form>
+    <a href="rexistro.php">rexistro</a>
+</body>
+
+</html>
